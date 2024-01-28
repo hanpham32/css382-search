@@ -101,40 +101,33 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    from game import Directions, Actions
 
     queue = util.Queue()
     visited = set()
-    actions = []
-    # print(queue.isEmpty())
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
 
     # push root (starting position)
     root = problem.getStartState()
-    queue.push(root)
 
-    visited.add(root)
+    queue.push((root, []))
+    # visited.add(root)
+
     while not queue.isEmpty():
-        current_node = queue.pop()
-        print("Visiting:", current_node)
-
-        actions.append(Actions.vectorToDirection(current_node))
+        current_node, path = queue.pop()
+        # print("Visiting:", current_node)
 
         if (problem.isGoalState(current_node)):
-            print("Reached the goal")
-            break
+            # print("Reached the goal")
+            # print(path)
+            return path
 
-        for paths in problem.getSuccessors(current_node):
-            path = paths[0]
-            if path not in visited:
-                visited.add(path)
-                queue.push(path)
-    print(actions)
-    return actions
+        if current_node not in visited:
+            visited.add(current_node)
+            for succesor in problem.getSuccessors(current_node):
+                queue.push((succesor[0], path + [succesor[1]]))
 
-    util.raiseNotDefined()
+    return ""
+
+    # util.raiseNotDefined()
 
 
 def uniformCostSearch(problem):
