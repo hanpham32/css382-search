@@ -4,7 +4,7 @@
 # educational purposes provided that (1) you do not distribute or publish
 # solutions, (2) you retain this notice, and (3) you provide clear
 # attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
+#
 # Attribution Information: The Pacman AI projects were developed at UC Berkeley.
 # The core projects and autograders were primarily created by John DeNero
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
@@ -15,9 +15,16 @@
 """
 In search.py, you will implement generic search algorithms which are called by
 Pacman agents (in searchAgents.py).
+
+# Abbreviations
+bfs = breadthFirstSearch
+dfs = depthFirstSearch
+astar = aStarSearch
+ucs = uniformCostSearch
 """
 
 import util
+
 
 class SearchProblem:
     """
@@ -70,7 +77,8 @@ def tinyMazeSearch(problem):
     from game import Directions
     s = Directions.SOUTH
     w = Directions.WEST
-    return  [s, s, w, s, w, w, s, w]
+    return [s, s, w, s, w, w, s, w]
+
 
 def depthFirstSearch(problem):
     """
@@ -89,15 +97,51 @@ def depthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
+
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    from game import Directions, Actions
+
+    queue = util.Queue()
+    visited = set()
+    actions = []
+    # print(queue.isEmpty())
+    print("Start:", problem.getStartState())
+    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
+    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+
+    # push root (starting position)
+    root = problem.getStartState()
+    queue.push(root)
+
+    visited.add(root)
+    while not queue.isEmpty():
+        current_node = queue.pop()
+        print("Visiting:", current_node)
+
+        actions.append(Actions.vectorToDirection(current_node))
+
+        if (problem.isGoalState(current_node)):
+            print("Reached the goal")
+            break
+
+        for paths in problem.getSuccessors(current_node):
+            path = paths[0]
+            if path not in visited:
+                visited.add(path)
+                queue.push(path)
+    print(actions)
+    return actions
+
     util.raiseNotDefined()
+
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
+
 
 def nullHeuristic(state, problem=None):
     """
@@ -105,6 +149,7 @@ def nullHeuristic(state, problem=None):
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
     return 0
+
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
