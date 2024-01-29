@@ -26,6 +26,7 @@ ucs = uniformCostSearch
 import util
 from util import Stack
 
+
 class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
@@ -75,6 +76,7 @@ def tinyMazeSearch(problem):
     sequence of moves will be incorrect, so only use this for tinyMaze.
     """
     from game import Directions
+
     s = Directions.SOUTH
     w = Directions.WEST
     return [s, s, w, s, w, w, s, w]
@@ -127,7 +129,7 @@ def breadthFirstSearch(problem):
         current_node, path = queue.pop()
         # print("Visiting:", current_node)
 
-        if (problem.isGoalState(current_node)):
+        if problem.isGoalState(current_node):
             # print("Reached the goal")
             # print(path)
             return path
@@ -187,7 +189,25 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    fringe = util.PriorityQueue()
+    visited = set()
+
+    fringe.push((problem.getStartState(), [], 0), 0)
+
+    while not fringe.isEmpty():
+        node, path, priority = fringe.pop()
+        if problem.isGoalState(node):
+            return path
+
+        if node not in visited:
+            visited.add(node)
+            for successor in problem.getSuccessors(node):
+                fringe.push(
+                    (successor[0], path + [successor[1]], successor[2] + priority),
+                    successor[2] + priority + heuristic(successor[0], problem),
+                )
+
+    return []
 
 
 # Abbreviations
@@ -195,5 +215,3 @@ bfs = breadthFirstSearch
 dfs = depthFirstSearch
 astar = aStarSearch
 ucs = uniformCostSearch
-
-
