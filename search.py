@@ -109,7 +109,7 @@ def depthFirstSearch(problem):
         if node not in visited:
             visited.add(node)
             for successor in problem.getSuccessors(node):
-                fringe.push((successor[0], path + [successor[1]]))
+                fringe.push((successor[0], path + successor[1]))
 
 
 def breadthFirstSearch(problem):
@@ -147,6 +147,34 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+    # getCostOfActions(actions) -> cost
+    stack = util.Stack()
+    path = []
+    visited = set()
+
+    root = problem.getStartState()
+    # entry = (priority, count, item)
+
+    stack.push((root, path, 0))
+
+    while not stack.isEmpty():
+        current_node = stack.pop()
+
+        if (problem.isGoalState(current_node[0])):
+            print("Reached Goal!")
+            return current_node[1]
+
+        if current_node[0] not in visited:
+            visited.add(current_node[0])
+
+            for successor, action, step_cost in problem.getSuccessors(current_node[0]):
+                childAction = current_node[1] + [action]
+                childStepCost = current_node[2] + step_cost
+                child = [successor, childAction, childStepCost]
+                stack.push(child)
+
+    return ""
+
     util.raiseNotDefined()
 
 
@@ -186,5 +214,4 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 bfs = breadthFirstSearch
 dfs = depthFirstSearch
 astar = aStarSearch
-ucs = uniformCostSearch
 ucs = uniformCostSearch
