@@ -328,7 +328,7 @@ class CornersProblem(search.SearchProblem):
 
             "*** YOUR CODE HERE ***"
             x, y = state[0]
-            dirx, diry = Actions.directionToVector(action)
+            dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dirx), int(y + diry)
             hitsWall = self.walls[nextx][nexty]
             if not hitsWall:
