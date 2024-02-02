@@ -459,7 +459,7 @@ def foodHeuristic(state, problem):
     
     foods = foodGrid.asList()
     for food in foods:
-        score = max(value, mazeDistance(food, position, problem.startingGameState))
+        score = max(score, mazeDistance(food, position, problem.startingGameState))
     return score
     
 class ClosestDotSearchAgent(SearchAgent):
