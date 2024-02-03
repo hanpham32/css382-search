@@ -175,7 +175,7 @@ def uniformCostSearch(problem):
 
     return ""
 
-    util.raiseNotDefined()
+    # util.raiseNotDefined()
 
 
 def nullHeuristic(state, problem=None):
