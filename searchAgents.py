@@ -536,7 +536,7 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    #initialize the value
+    #initialize the score
     score = 0
     
     foods = foodGrid.asList()
