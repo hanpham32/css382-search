@@ -144,37 +144,34 @@ def breadthFirstSearch(problem):
 
 
 def uniformCostSearch(problem):
-    """Search the node of least total cost first."""
-    "*** YOUR CODE HERE ***"
-    # getCostOfActions(actions) -> cost
-    stack = util.Stack()
-    path = []
-    visited = set()
+  """Search the node of least total cost first."""
+  "*** YOUR CODE HERE ***"
+  # getCostOfActions(actions) -> cost
+  queue = util.PriorityQueue()
+  path = []
+  visited = set()
 
-    root = problem.getStartState()
-    # entry = (priority, count, item)
+  root = problem.getStartState()
+  # entry = (priority, count, item)
+  
+  queue.push((root, [], 0), 0)
 
-    stack.push((root, path, 0))
+  while not queue.isEmpty():
+      node, path, priority = queue.pop()
 
-    while not stack.isEmpty():
-        current_node = stack.pop()
+      if (problem.isGoalState(node)):
+          print("Reached Goal!")
+          return path
 
-        if (problem.isGoalState(current_node[0])):
-            print("Reached Goal!")
-            return current_node[1]
+      if node not in visited:
+          visited.add(node)
 
-        if current_node[0] not in visited:
-            visited.add(current_node[0])
+          for successor in problem.getSuccessors(node):
+            queue.push((successor[0], path + [successor[1]], successor[2] + priority),\
+            successor[2] + priority)
+  return ""
 
-            for successor, action, step_cost in problem.getSuccessors(current_node[0]):
-                childAction = current_node[1] + [action]
-                childStepCost = current_node[2] + step_cost
-                child = [successor, childAction, childStepCost]
-                stack.push(child)
-
-    return ""
-
-    util.raiseNotDefined()
+    # util.raiseNotDefined()
 
 
 def nullHeuristic(state, problem=None):
